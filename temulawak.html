@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>WebTOGA</title>
+    <style>
+    /* 1. Pengaturan Dasar Fullscreen dan Z-index */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+    }
+    #sketchfab-container, #sketchfab-container iframe {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+    
+    /* 2. Styling Lapisan Deskripsi (Overlay) */
+    #description-overlay {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 300px; /* Lebar overlay yang tetap */
+        max-height: 80vh; /* Tinggi maksimum */
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.454); /* Latar belakang putih transparan */
+        color: #333;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        overflow-y: auto; /* Memungkinkan scroll jika konten terlalu panjang */
+        
+        /* Z-index tinggi agar di atas iframe */
+        z-index: 10; 
+        
+        /* Efek Transisi untuk animasi hide/show yang lebih halus */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    #resep-overlay {
+        position: fixed;
+        top: 60px;
+        left: 20px;
+        width: 300px; /* Lebar overlay yang tetap */
+        max-height: 75vh; /* Tinggi maksimum */
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.454); /* Latar belakang putih transparan */
+        color: #333;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        overflow-y: auto; /* Memungkinkan scroll jika konten terlalu panjang */
+        
+        /* Z-index tinggi agar di atas iframe */
+        z-index: 10; 
+        
+        /* Efek Transisi untuk animasi hide/show yang lebih halus */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* 3. Styling Tombol Toggle */
+    #toggle-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: #00ffeaa9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 20; /* Lebih tinggi dari overlay agar pasti bisa diklik */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    #toggle-button1 {
+        position: fixed;
+        bottom: 20px;
+        right: 180px;
+        padding: 10px 15px;
+        background-color: #007bffb8;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 20; /* Lebih tinggi dari overlay agar pasti bisa diklik */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+        #action-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        padding: 10px 15px;
+        background-color: #ff0000a3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 20; /* Lebih tinggi dari overlay agar pasti bisa diklik */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* CSS UNTUK MENYEMBUNYIKAN OVERLAY */
+    /* Saat class 'hidden' ditambahkan oleh JS, overlay akan dipindahkan keluar layar */
+    .hidden {
+        transform: translateX(120%); 
+        /* Menggeser overlay 120% ke kanan, menyembunyikannya dari pandangan */
+        /* Anda juga bisa menggunakan display: none;, tapi transisi akan hilang */
+    }
+    .hidden1 {
+        transform: translateX(-120%); 
+        /* Menggeser overlay 120% ke kanan, menyembunyikannya dari pandangan */
+        /* Anda juga bisa menggunakan display: none;, tapi transisi akan hilang */
+    }
+    
+    </style>
+</head>
+<body>
+    <div id="sketchfab-container">
+        <iframe title="Allopera plain" 
+            frameborder="0" 
+            allowfullscreen 
+            mozallowfullscreen="true" 
+            webkitallowfullscreen="true" 
+            allow="autoplay; fullscreen; xr-spatial-tracking" 
+            xr-spatial-tracking 
+            execution-while-out-of-viewport 
+            execution-while-not-rendered 
+            web-share 
+            src="https://sketchfab.com/models/04935a6953924b45b19428aaa0e44e1f/embed"
+            style="width: 100%; height: 100%;">
+        </iframe>
+    </div>
+
+<button id="toggle-button" onclick="toggleOverlay()">Tutup Deskripsi</button>
+<button id="toggle-button1" onclick="toggleOverlay1()">Tutup Resep</button>
+<button id="action-button" onclick="goToPage('index.html')">Kembali</button>
+    
+<div id="resep-overlay">
+        <h3>Resep Jamu Kunyit asam dan Temulawak:</h3>
+        <h4>Bahan bahan</h4>
+        <ol>
+            <li>3 keping/ iris temulawak kering</li>
+            <li>1 bungkus kunyit bubuk (me merk desaku)</li>
+            <li>110 gr gula pasir</li>
+            <li>40 gr asam jawa (rendam dg sedikit air hangat)</li>
+            <li>1 sdt garam</li>
+            <li>2 lt air</li>
+        </ol>
+        
+        <h4>Cara membuat</h4>
+        <ol>
+            <li>Siapkan bahan bahan. Asam jawa rendam di mangkuk dengan secukupnya air hangat, lalu remas2 hingga menjadi spt pasta. Rasa asamnya keluar. Sisihkan</li>
+            <li>Siapkan panci dan isi dengan air + gula + garam + temulawak, asam dan kunyit bubuk, didihkan. Biarkan mendidih bbrp saat hingga semua rempah benar2 kuat rasanya. Dan benar2 tanak.</li>
+            <li>Setelah tanak, matikan api kompor, biarkan kunyit as dingin. Setelah dingin, lalu saring dan masukkan kedalam botol, simpan di kulkas. Sajikan dingin makin mantab.</li>
+        </ol>
+    </div>
+
+<div id="description-overlay">
+        <h1>Temulawak</h1>
+        <p>Temulawak atau Curcuma xanthorrhizaRoxb merupakan tumbuhan yang sangat umum dikenal di Indonesia, bahkan di dunia. Temulawak adalah tumbuhan asli di pulau Jawa, Madura dan Maluku dan telah banyak di budidayakan di Indonesia, Malaysia, Thailand, Philipina dan India. Temulawak termasuk ke dalam genus curcuma.</p>
+        <ul>
+            <li>Temulawak umumnya dimanfaatkan oleh masyarakat Jawa sebagai bahan utama obat tradisional yang bermanfaat untuk memelihara kesehatan tubuh, mengobati penyakit dan meningkatkan kesehatan.</li>
+            <li>Temulawak menduduki peringkat pertama di Jawa Timur dan peringkat kedua di Jawa Tengah setelah jahe berdasarkan kebutuhan untuk industri obat tradisional dan industri kecil obat tradisional.</li>
+            <li>Penggunaan temulawak dalam pengobatan tradisional banyak digunakan dalam pengobatan gangguan pencernaan, sakit kuning, keputihan, meningkatkan daya tahan tubuh serta menjaga Kesehatan.</li>
+        </ul>
+    </div>
+
+<script>
+
+    function goToPage(url) {
+        // Objek window.location digunakan untuk mengontrol URL halaman.
+        // Menetapkan nilai baru pada .href akan mengarahkan browser.
+        window.location.href = url;
+    }
+
+    // Ambil elemen overlay dan tombol
+    const overlay = document.getElementById('description-overlay');
+    const overlay1 = document.getElementById('resep-overlay');
+    const toggleButton = document.getElementById('toggle-button');
+    const toggleButton1 = document.getElementById('toggle-button1');
+
+    function toggleOverlay() {
+        // Toggle class 'hidden' pada overlay
+        overlay.classList.toggle('hidden');
+
+        // Ubah teks tombol berdasarkan status overlay
+        if (overlay.classList.contains('hidden')) {
+            toggleButton.textContent = 'Tampilkan Deskripsi';
+            // Pindahkan tombol ke posisi overlay saat overlay disembunyikan
+            // toggleButton.style.right = '20px';
+        } else {
+            toggleButton.textContent = 'Tutup Deskripsi';
+        }
+    }
+
+        function toggleOverlay1() {
+        // Toggle class 'hidden' pada overlay
+        overlay1.classList.toggle('hidden1');
+
+        // Ubah teks tombol berdasarkan status overlay
+        if (overlay1.classList.contains('hidden1')) {
+            toggleButton1.textContent = 'Tampilkan Resep';
+            // Pindahkan tombol ke posisi overlay saat overlay disembunyikan
+            // toggleButton1.style.right = '20px';
+        } else {
+            toggleButton1.textContent = 'Tutup Resep';
+        }
+    }
+
+    // Panggil fungsi sekali saat halaman dimuat jika Anda ingin dimulai dengan overlay terbuka
+    // toggleOverlay(); 
+</script>
+
+</body>
+</html>
