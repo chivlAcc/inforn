@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama dengan Tombol Tengah</title>
+<style>
+    /* 1. Aturan Dasar untuk Fullscreen */
+    html, body {
+        height: 100%; /* Penting: agar body mengisi seluruh tinggi viewport */
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    /* 2. Kunci Penengahan (Flexbox) */
+    #center-container {
+        /* Set container utama memenuhi seluruh viewport */
+        height: 100vh; 
+        width: 100vw;
+        
+        /* Aktifkan Flexbox */
+        display: flex;
+        
+        /* Atur arah penataan menjadi kolom (dari atas ke bawah) */
+        flex-direction: column;
+        
+        /* Tengahkan konten secara Vertikal */
+        justify-content: center; 
+        
+        /* Tengahkan konten secara Horizontal */
+        align-items: center; 
+        
+        text-align: center;
+    }
+
+    /* 3. Penataan Tombol di dalam group */
+    #button-group {
+        /* Memberikan sedikit jarak dari judul */
+        margin-top: 20px; 
+    }
+    
+    /* 4. Styling Tombol */
+    .action-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 0 10px; /* Jarak antara tombol */
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .action-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+    
+    <div id="center-container">
+        <h1>Selamat Datang di Website Kami</h1>
+        <div id="button-group">
+            <a href="aloe.html">
+                <button class="action-button">Tanaman Lidah Buaya</button>
+            </a>
+
+            <a href="sereh.html">
+                <button class="action-button">Tanaman Sereh</button>
+            </a>
+
+            <a href="temulawak.html">
+                <button class="action-button">Tanaman Temulawak</button>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
